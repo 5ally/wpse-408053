@@ -1,0 +1,28 @@
+{
+	"$schema": "https://json.schemastore.org/block.json",
+	"apiVersion": 2,
+	"name": "wpse-408053/leaflet-map-demo",
+	"title": "WPSE 408053: Leaflet map demo",
+	"textdomain": "wpse-408053",
+	"attributes": {
+		"lat": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "div.map-pp",
+			"attribute": "data-lat",
+			"default": "51.505"
+		},
+		"lon": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "div.map-pp",
+			"attribute": "data-lon",
+			"default": "-0.09"
+		}
+	},
+	"icon": "location",
+	"category": "widgets",
+	"editorScript": "file:./index.js",
+	"viewScript": "file:./view.js",
+	"style": [ "leaflet" ]
+}
