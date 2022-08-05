@@ -16,7 +16,7 @@ function wpse_408053_init() {
 
 	// NOTE: You will need to manually add 'leaflet' to the **dependencies** of
 	// the editor and view scripts! See index.asset.php and view.asset.php in
-	// build/wpse-408053. You also need to add 'jquery' to index.asset.php.
+	// build/wpse-408053.
 	register_block_type( __DIR__ );
 
 	register_post_type( 'locations', array(
