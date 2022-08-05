@@ -1,4 +1,4 @@
-/*global L, jQuery*/
+/*global L*/
 
 /**
  * WordPress dependencies
@@ -13,21 +13,6 @@ import { useEffect } from '@wordpress/element';
  * Internal dependencies
  */
 import json from './block.json';
-
-const META_KEY = 'api_coordinates_pp';
-
-// USES jQuery and ensures the meta value is not overwritten via the "Custom
-// Fields" meta box. Or that it'd be overwritten, but with the correct value.
-function fixTheListMetaValue( value ) {
-	if ( '_' === META_KEY.substring( 0, 1 ) ) {
-		return;
-	}
-
-	const name = jQuery( '#the-list' ).find( 'input[value="' + META_KEY + '"][name$="[key]"]' )?.[0]?.name || '';
-	if ( name ) {
-		jQuery( '#the-list' ).find( 'textarea[name="' + name.replace( '[key]', '[value]' ) + '"]' ).val( value );
-	}
-}
 
 function initMap( { clientId, attributes, setAttributes, updateMetaCoordinates } ) {
 	const mapId  = 'map-' + clientId;
@@ -61,7 +46,6 @@ function initMap( { clientId, attributes, setAttributes, updateMetaCoordinates }
 		} );
 
 		updateMetaCoordinates( latLngStr );
-		fixTheListMetaValue( latLngStr );
 	};
 
 	marker.on( 'dragend', onDragend );
@@ -85,8 +69,8 @@ function edit( props ) {
 
 	const [ meta, setMeta ] = useEntityProp( 'postType', postType, 'meta' );
 	const updateMetaCoordinates = value => {
-		setMeta( { ...meta, [ META_KEY ]: value } );
-		console.log( `meta ${ META_KEY } set to ${ value }` );
+		setMeta( { ...meta, api_coordinates_pp: value } );
+		console.log( 'meta api_coordinates_pp set to ' + value );
 	};
 
 	const mapId = 'map-' + props.clientId;
