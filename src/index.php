@@ -37,8 +37,8 @@ function wpse_408053_init() {
 }
 
 // Turn the api_coordinates_pp meta to a *protected* meta without having to change
-// the meta key (to _api_coordinates_pp). Uncomment if you want to use this.
-//*add_filter( 'is_protected_meta', 'wpse_408053_filter_is_protected_meta', 10, 3 );
+// the meta key (to _api_coordinates_pp).
+add_filter( 'is_protected_meta', 'wpse_408053_filter_is_protected_meta', 10, 3 );
 function wpse_408053_filter_is_protected_meta( $protected, $meta_key, $meta_type ) {
 	return ( 'post' === $meta_type && 'api_coordinates_pp' === $meta_key ) ?
 		true : $protected;
