@@ -9,6 +9,17 @@
  * @package wpse-408053
  */
 
+register_activation_hook( __FILE__, 'wpse_408053_plugin_activation' );
+function wpse_408053_plugin_activation() {
+	update_option( 'wpse_408053_plugin_permalinks_flushed', 0 );
+}
+
+register_deactivation_hook( __FILE__, 'wpse_408053_plugin_deactivation' );
+function wpse_408053_plugin_deactivation() {
+	delete_option( 'wpse_408053_plugin_permalinks_flushed' );
+	flush_rewrite_rules( false );
+}
+
 add_action( 'init', 'wpse_408053_init' );
 function wpse_408053_init() {
 	wp_register_style( 'leaflet', 'https://unpkg.com/leaflet@1.8.0/dist/leaflet.css', array(), null );
@@ -34,6 +45,12 @@ function wpse_408053_init() {
 			return current_user_can( 'edit_posts' );
 		},
 	) );
+
+	// We've registered a post type, so let's ensure the post pages doesn't 404.
+	if ( ! get_option( 'wpse_408053_plugin_permalinks_flushed', 0 ) ) {
+		flush_rewrite_rules( false );
+		update_option( 'wpse_408053_plugin_permalinks_flushed', 1 );
+	}
 }
 
 // Turn the api_coordinates_pp meta to a *protected* meta without having to change
