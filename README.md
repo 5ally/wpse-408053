@@ -29,3 +29,13 @@ And enqueued the `leaflet` stylesheet and script files using:
 wp_register_style( 'leaflet', 'https://unpkg.com/leaflet@1.8.0/dist/leaflet.css', array(), null );
 wp_register_script( 'leaflet', 'https://unpkg.com/leaflet@1.8.0/dist/leaflet.js', array(), null );
 ```
+
+Also, to ensure the "Custom Fields" **meta box** does *not* "overwrite" the meta value that's changed via the block editor, I used the following to turn the `api_coordinates_pp` meta to a **protected** meta without having to change the meta key to `_api_coordinates_pp`: [(see this question and my answer there for more details](https://wordpress.stackexchange.com/q/408053/137402))
+
+```php
+add_filter( 'is_protected_meta', 'wpse_408053_filter_is_protected_meta', 10, 3 );
+function wpse_408053_filter_is_protected_meta( $protected, $meta_key, $meta_type ) {
+	return ( 'post' === $meta_type && 'api_coordinates_pp' === $meta_key ) ?
+		true : $protected;
+}
+```
